@@ -6,7 +6,7 @@ int main()
 {    
     int result = 0;
     std::ifstream myfile("../input.txt",std::fstream::in);
-    if (myfile.is_open() != true)
+    if (!myfile.is_open())
     {
         std::cout << "Error for load File" << std::endl;        
         return -1;
