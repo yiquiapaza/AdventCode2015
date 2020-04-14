@@ -1,57 +1,65 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
-
-bool have_vowels(std::string &str);
+bool vowels(std::string &str);
+bool not_contain(std::string &str);
+bool twice(std::string &str);
 
 int main()
 {
-    std::ifstream myFile("../input.txt", std::fstream::in);
-    if (!myFile.is_open())
-    {
-        std::cout << "Error load file" << std::endl;
-        return -1;
-    }
-    std::string _string((std::istreambuf_iterator<char>(myFile)), std::istreambuf_iterator<char>());
+  std::ifstream myFile("../input.txt", std::fstream::in);
+  if (!myFile.is_open())
+  {
+    std::cout << "Error load file" << std::endl;
+    return -1;
+  }
+  std::string _string((std::istreambuf_iterator<char>(myFile)), std::istreambuf_iterator<char>());
 
-    std::string test = "ugknbfddgicrmopn";
-    std::cout << have_vowels(test) << std::endl;
+  std::string test = "jchzalrnumimnmhp";
 
-    return 1;
+  std::cout << vowels(test) << std::endl;
+  std::cout << twice(test) << std::endl;
+  std::cout << not_contain(test) << std::endl;
+  
+  /* std::cout << _string << std::endl; */
+
+  return 0;
 }
 
-bool have_vowels(std::string &str)
+bool vowels(std::string &str)
 {
-    char vowel = ' ';
-    bool bool_out = false;
-    int a = 0, e = 0, i =0, o = 0, u = 0, out = 0;
-    for (int i = 0; i < str.length(); i++)
+  int count = 0;
+  count += std::count(str.begin(), str.end() ,'a');
+  count += std::count(str.begin(), str.end(), 'e');
+  count += std::count(str.begin(), str.end(), 'i');
+  count += std::count(str.begin(), str.end(), 'o');
+  count += std::count(str.begin(), str.end(), 'u');
+  if ( count > 2 )
+    return true;
+  else 
+    return false;
+}
+
+bool not_contain(std::string &str)
+{
+  if( (str.find("ab") != std::string::npos) || (str.find("cd") != std::string::npos) || (str.find("pq") != std::string::npos) || (str.find("xy") != std::string::npos ) )
+    return false;
+  else 
+    return true;
+}
+
+bool twice(std::string &str)
+{
+  bool tmp = false;
+  for(char& c:str)
+  {
+    if(str.find(c+c) != std::string::npos)
     {
-        vowel = str[i];
-        switch (vowel)
-        {
-        case 'a':
-            a++;
-            break;
-        case 'e':
-            e++;
-            break;
-        case 'i':
-            i++;
-            break;
-        case 'o':
-            o++;
-            break;
-        case 'u':
-            u++;
-            break;
-        default:
-            break;
-        }
+      tmp = true;
+      break;
     }
-    out = a + e + i + o + u;
-    if(out > 0)
-        bool_out = true;
-    return bool_out;
+  }
+  return tmp;
 }
